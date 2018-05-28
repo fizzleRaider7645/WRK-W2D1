@@ -1,4 +1,5 @@
 require_relative "piece.rb"
+require_relative "cursor.rb"
 
 class BoardError < StandardError; end
 
@@ -22,6 +23,11 @@ class Board
   def []=(pos, piece)
     row, col = pos
     grid[row][col] = piece
+  end
+
+  def valid_pos?(pos)
+    return true if (self[pos] == @sentinal && pos.all? {|el| el.between?(0, 7)})
+    false
   end
 
   def populate
