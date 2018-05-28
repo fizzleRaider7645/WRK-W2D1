@@ -40,11 +40,21 @@ def feed_me_a_fruit
 end
 
 # PHASE 4
+class NotFriendsLongEnough < StandardError; end
+class NeedAnswerError < StandardError; end
+
 class BestFriend
   def initialize(name, yrs_known, fav_pastime)
     @name = name
     @yrs_known = yrs_known
     @fav_pastime = fav_pastime
+
+    if yrs_known < 5
+      raise NotFriendsLongEnough.new ("I don't even know you man")
+    elsif fav_pastime.length <= 0
+      raise NeedAnswerError.new("What are you into bro!??")
+    end
+
   end
 
   def talk_about_friendship
