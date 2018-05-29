@@ -1,5 +1,6 @@
-require_relative "piece.rb"
-require_relative "cursor.rb"
+require_relative "pieces/piece.rb"
+require_relative "pieces/nullpiece.rb"
+require_relative "pieces/pawn.rb"
 
 class BoardError < StandardError; end
 
@@ -7,7 +8,7 @@ class Board
   attr_reader :grid
   def initialize
     @grid = Array.new(8) { Array.new(8) }
-    @sentinel = NullPiece.new
+    @sentinel = NullPiece.instance
   end
 
   def move_piece(color, start_pos, end_pos)
@@ -32,10 +33,12 @@ class Board
   def populate
     grid.length.times do |i|
       grid[i].length.times do |j|
-        if [0, 1, 6, 7].include?(i)
-          self[[i, j]] = Piece.new
+        if [0, 7].include?(i)
+          self[[i, j]] = Piece.new(:red, self).to_s
+        elsif [1, 6].include?(i)
+          self[[i, j]] = Pawn.new(:red, self).to_s
         else
-          self[[i, j]] = @sentinel
+          self[[i, j]] = NullPiece.instance
         end
       end
     end
