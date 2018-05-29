@@ -7,7 +7,7 @@ class Board
   attr_reader :grid
   def initialize
     @grid = Array.new(8) { Array.new(8) }
-    @sentinal = NullPiece.new
+    @sentinel = NullPiece.new
   end
 
   def move_piece(color, start_pos, end_pos)
@@ -26,8 +26,7 @@ class Board
   end
 
   def valid_pos?(pos)
-    return true if (self[pos] == @sentinal && pos.all? {|el| el.between?(0, 7)})
-    false
+    pos.all? { |el| el.between?(0, 7) }
   end
 
   def populate
@@ -36,7 +35,7 @@ class Board
         if [0, 1, 6, 7].include?(i)
           self[[i, j]] = Piece.new
         else
-          self[[i, j]] = @sentinal
+          self[[i, j]] = @sentinel
         end
       end
     end

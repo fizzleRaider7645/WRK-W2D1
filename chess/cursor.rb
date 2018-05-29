@@ -1,5 +1,6 @@
 require "io/console"
 require_relative "board.rb"
+require "byebug"
 KEYMAP = {
   " " => :space,
   "h" => :left,
@@ -82,18 +83,17 @@ class Cursor
     when :left, :right, :up, :down
       update_pos(key)
     when :ctrl_c
-      Process.exit
+      Process.exit(0)
     end
   end
 
   def update_pos(diff)
-    @cursor_pos = diff if board.valid_move?
-  end
-
-  def view_board(board)
-    5.times do |i|
-      board.render
-      get_input
+    # debugger
+    pos = @cursor_pos
+    pos[0] += MOVES[diff][0]
+    pos[1] += MOVES[diff][1]
+    if board.valid_pos?(pos)
+      @cursor_pos = pos
     end
   end
 end
